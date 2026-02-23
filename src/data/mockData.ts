@@ -1,25 +1,60 @@
-import type { User, Skill, Question, Course, Certification, JobRole, Department, EmployeeSkill, EmployeeCourse, EmployeeCertification, Assessment } from '@/types';
+import type { User, Skill, Question, Course, Certification, JobRole, Department, EmployeeSkill, EmployeeCourse, EmployeeCertification, Assessment, CareerPath } from '@/types';
 
 export const departments: Department[] = [
-  { id: 'dept-1', name: 'Engineering', managerId: 'user-11' },
-  { id: 'dept-2', name: 'Product', managerId: 'user-12' },
-  { id: 'dept-3', name: 'Marketing', managerId: 'user-12' },
+  { id: 'dept-1', name: 'Engineering', managerId: 'mgr-1' },
+  { id: 'dept-2', name: 'Product', managerId: 'mgr-2' },
+  { id: 'dept-3', name: 'Marketing', managerId: 'mgr-3' },
 ];
 
+// 1 Admin, 3 Managers, 15 Employees (5 per manager), 20 Students
 export const users: User[] = [
-  { id: 'user-1', name: 'Alex Chen', email: 'alex@company.com', role: 'employee', department: 'Engineering', jobRole: 'role-1', avatar: 'AC' },
-  { id: 'user-2', name: 'Sarah Kim', email: 'sarah@company.com', role: 'employee', department: 'Engineering', jobRole: 'role-1', avatar: 'SK' },
-  { id: 'user-3', name: 'James Wilson', email: 'james@company.com', role: 'employee', department: 'Engineering', jobRole: 'role-2', avatar: 'JW' },
-  { id: 'user-4', name: 'Maria Garcia', email: 'maria@company.com', role: 'employee', department: 'Product', jobRole: 'role-3', avatar: 'MG' },
-  { id: 'user-5', name: 'David Park', email: 'david@company.com', role: 'employee', department: 'Product', jobRole: 'role-3', avatar: 'DP' },
-  { id: 'user-6', name: 'Emily Zhang', email: 'emily@company.com', role: 'employee', department: 'Marketing', jobRole: 'role-4', avatar: 'EZ' },
-  { id: 'user-7', name: 'Ryan O\'Brien', email: 'ryan@company.com', role: 'employee', department: 'Engineering', jobRole: 'role-2', avatar: 'RO' },
-  { id: 'user-8', name: 'Priya Patel', email: 'priya@company.com', role: 'employee', department: 'Marketing', jobRole: 'role-5', avatar: 'PP' },
-  { id: 'user-9', name: 'Tom Mitchell', email: 'tom@company.com', role: 'employee', department: 'Engineering', jobRole: 'role-1', avatar: 'TM' },
-  { id: 'user-10', name: 'Lisa Wong', email: 'lisa@company.com', role: 'employee', department: 'Product', jobRole: 'role-3', avatar: 'LW' },
-  { id: 'user-11', name: 'Michael Torres', email: 'michael@company.com', role: 'manager', department: 'Engineering', jobRole: 'role-2', avatar: 'MT' },
-  { id: 'user-12', name: 'Jennifer Lee', email: 'jennifer@company.com', role: 'manager', department: 'Product', jobRole: 'role-3', avatar: 'JL' },
-  { id: 'user-13', name: 'Robert Adams', email: 'robert@company.com', role: 'hr', department: 'Engineering', jobRole: 'role-5', avatar: 'RA' },
+  // Admin
+  { id: 'admin-1', name: 'Diana Prince', email: 'admin@company.com', role: 'admin', department: 'Engineering', jobRole: 'role-5', avatar: 'DP' },
+  // HR (kept for backward compat)
+  { id: 'hr-1', name: 'Robert Adams', email: 'robert@company.com', role: 'hr', department: 'Engineering', jobRole: 'role-5', avatar: 'RA' },
+  // Managers
+  { id: 'mgr-1', name: 'Michael Torres', email: 'michael@company.com', role: 'manager', department: 'Engineering', jobRole: 'role-2', avatar: 'MT' },
+  { id: 'mgr-2', name: 'Jennifer Lee', email: 'jennifer@company.com', role: 'manager', department: 'Product', jobRole: 'role-3', avatar: 'JL' },
+  { id: 'mgr-3', name: 'Carlos Rivera', email: 'carlos@company.com', role: 'manager', department: 'Marketing', jobRole: 'role-4', avatar: 'CR' },
+  // Employees under mgr-1 (Engineering)
+  { id: 'user-1', name: 'Alex Chen', email: 'alex@company.com', role: 'employee', department: 'Engineering', jobRole: 'role-1', avatar: 'AC', managerId: 'mgr-1' },
+  { id: 'user-2', name: 'Sarah Kim', email: 'sarah@company.com', role: 'employee', department: 'Engineering', jobRole: 'role-1', avatar: 'SK', managerId: 'mgr-1' },
+  { id: 'user-3', name: 'James Wilson', email: 'james@company.com', role: 'employee', department: 'Engineering', jobRole: 'role-2', avatar: 'JW', managerId: 'mgr-1' },
+  { id: 'user-7', name: "Ryan O'Brien", email: 'ryan@company.com', role: 'employee', department: 'Engineering', jobRole: 'role-2', avatar: 'RO', managerId: 'mgr-1' },
+  { id: 'user-9', name: 'Tom Mitchell', email: 'tom@company.com', role: 'employee', department: 'Engineering', jobRole: 'role-1', avatar: 'TM', managerId: 'mgr-1' },
+  // Employees under mgr-2 (Product)
+  { id: 'user-4', name: 'Maria Garcia', email: 'maria@company.com', role: 'employee', department: 'Product', jobRole: 'role-3', avatar: 'MG', managerId: 'mgr-2' },
+  { id: 'user-5', name: 'David Park', email: 'david@company.com', role: 'employee', department: 'Product', jobRole: 'role-3', avatar: 'DP', managerId: 'mgr-2' },
+  { id: 'user-10', name: 'Lisa Wong', email: 'lisa@company.com', role: 'employee', department: 'Product', jobRole: 'role-3', avatar: 'LW', managerId: 'mgr-2' },
+  { id: 'user-14', name: 'Nina Patel', email: 'nina@company.com', role: 'employee', department: 'Product', jobRole: 'role-3', avatar: 'NP', managerId: 'mgr-2' },
+  { id: 'user-15', name: 'Oscar Huang', email: 'oscar@company.com', role: 'employee', department: 'Product', jobRole: 'role-3', avatar: 'OH', managerId: 'mgr-2' },
+  // Employees under mgr-3 (Marketing)
+  { id: 'user-6', name: 'Emily Zhang', email: 'emily@company.com', role: 'employee', department: 'Marketing', jobRole: 'role-4', avatar: 'EZ', managerId: 'mgr-3' },
+  { id: 'user-8', name: 'Priya Patel', email: 'priya@company.com', role: 'employee', department: 'Marketing', jobRole: 'role-5', avatar: 'PP', managerId: 'mgr-3' },
+  { id: 'user-16', name: 'Kevin Brown', email: 'kevin@company.com', role: 'employee', department: 'Marketing', jobRole: 'role-4', avatar: 'KB', managerId: 'mgr-3' },
+  { id: 'user-17', name: 'Sophie Turner', email: 'sophie@company.com', role: 'employee', department: 'Marketing', jobRole: 'role-4', avatar: 'ST', managerId: 'mgr-3' },
+  { id: 'user-18', name: 'Lucas Martin', email: 'lucas@company.com', role: 'employee', department: 'Marketing', jobRole: 'role-5', avatar: 'LM', managerId: 'mgr-3' },
+  // Students (20)
+  { id: 'stu-1', name: 'Ava Johnson', email: 'ava@student.com', role: 'student', department: '', jobRole: '', avatar: 'AJ' },
+  { id: 'stu-2', name: 'Ethan Davis', email: 'ethan@student.com', role: 'student', department: '', jobRole: '', avatar: 'ED' },
+  { id: 'stu-3', name: 'Mia Thompson', email: 'mia@student.com', role: 'student', department: '', jobRole: '', avatar: 'MT' },
+  { id: 'stu-4', name: 'Noah Martinez', email: 'noah@student.com', role: 'student', department: '', jobRole: '', avatar: 'NM' },
+  { id: 'stu-5', name: 'Isabella Anderson', email: 'isabella@student.com', role: 'student', department: '', jobRole: '', avatar: 'IA' },
+  { id: 'stu-6', name: 'Liam Taylor', email: 'liam@student.com', role: 'student', department: '', jobRole: '', avatar: 'LT' },
+  { id: 'stu-7', name: 'Charlotte Thomas', email: 'charlotte@student.com', role: 'student', department: '', jobRole: '', avatar: 'CT' },
+  { id: 'stu-8', name: 'Oliver Jackson', email: 'oliver@student.com', role: 'student', department: '', jobRole: '', avatar: 'OJ' },
+  { id: 'stu-9', name: 'Amelia White', email: 'amelia@student.com', role: 'student', department: '', jobRole: '', avatar: 'AW' },
+  { id: 'stu-10', name: 'William Harris', email: 'william@student.com', role: 'student', department: '', jobRole: '', avatar: 'WH' },
+  { id: 'stu-11', name: 'Emma Clark', email: 'emma@student.com', role: 'student', department: '', jobRole: '', avatar: 'EC' },
+  { id: 'stu-12', name: 'James Lewis', email: 'james.s@student.com', role: 'student', department: '', jobRole: '', avatar: 'JL' },
+  { id: 'stu-13', name: 'Sophia Robinson', email: 'sophia@student.com', role: 'student', department: '', jobRole: '', avatar: 'SR' },
+  { id: 'stu-14', name: 'Benjamin Walker', email: 'benjamin@student.com', role: 'student', department: '', jobRole: '', avatar: 'BW' },
+  { id: 'stu-15', name: 'Harper Allen', email: 'harper@student.com', role: 'student', department: '', jobRole: '', avatar: 'HA' },
+  { id: 'stu-16', name: 'Elijah Young', email: 'elijah@student.com', role: 'student', department: '', jobRole: '', avatar: 'EY' },
+  { id: 'stu-17', name: 'Abigail King', email: 'abigail@student.com', role: 'student', department: '', jobRole: '', avatar: 'AK' },
+  { id: 'stu-18', name: 'Henry Wright', email: 'henry@student.com', role: 'student', department: '', jobRole: '', avatar: 'HW' },
+  { id: 'stu-19', name: 'Emily Scott', email: 'emily.s@student.com', role: 'student', department: '', jobRole: '', avatar: 'ES' },
+  { id: 'stu-20', name: 'Daniel Green', email: 'daniel@student.com', role: 'student', department: '', jobRole: '', avatar: 'DG' },
 ];
 
 export const skills: Skill[] = [
@@ -35,6 +70,35 @@ export const skills: Skill[] = [
   { id: 'skill-10', name: 'Data Analysis', category: 'Analytics', description: 'Data analysis and visualization' },
   { id: 'skill-11', name: 'UX Design', category: 'Design', description: 'User experience design' },
   { id: 'skill-12', name: 'SEO', category: 'Marketing', description: 'Search engine optimization' },
+  // Additional skills for career paths
+  { id: 'skill-13', name: 'Machine Learning', category: 'AI', description: 'ML algorithms and frameworks' },
+  { id: 'skill-14', name: 'Communication', category: 'Soft Skills', description: 'Verbal and written communication' },
+  { id: 'skill-15', name: 'Leadership', category: 'Soft Skills', description: 'Team leadership and management' },
+  { id: 'skill-16', name: 'Project Management', category: 'Process', description: 'Planning and executing projects' },
+  { id: 'skill-17', name: 'Statistics', category: 'Analytics', description: 'Statistical analysis methods' },
+  { id: 'skill-18', name: 'Figma', category: 'Design', description: 'UI design tool proficiency' },
+  { id: 'skill-19', name: 'Java', category: 'Languages', description: 'Java programming language' },
+  { id: 'skill-20', name: 'Cybersecurity', category: 'Security', description: 'Information security practices' },
+  { id: 'skill-21', name: 'DevOps', category: 'DevOps', description: 'CI/CD and infrastructure automation' },
+  { id: 'skill-22', name: 'Mobile Development', category: 'Frontend', description: 'React Native / Flutter development' },
+  { id: 'skill-23', name: 'Data Engineering', category: 'Data', description: 'ETL pipelines and data warehousing' },
+  { id: 'skill-24', name: 'Business Strategy', category: 'Business', description: 'Strategic planning and execution' },
+  { id: 'skill-25', name: 'Content Marketing', category: 'Marketing', description: 'Content strategy and creation' },
+  { id: 'skill-26', name: 'Financial Analysis', category: 'Business', description: 'Financial modeling and analysis' },
+  { id: 'skill-27', name: 'Product Design', category: 'Design', description: 'End-to-end product design thinking' },
+  { id: 'skill-28', name: 'Healthcare IT', category: 'Healthcare', description: 'Health informatics systems' },
+  { id: 'skill-29', name: 'Cloud Architecture', category: 'Cloud', description: 'Multi-cloud infrastructure design' },
+  { id: 'skill-30', name: 'Blockchain', category: 'Emerging Tech', description: 'Distributed ledger technologies' },
+  { id: 'skill-31', name: 'Natural Language Processing', category: 'AI', description: 'NLP and text analysis' },
+  { id: 'skill-32', name: 'Embedded Systems', category: 'Hardware', description: 'IoT and firmware development' },
+  { id: 'skill-33', name: 'Quality Assurance', category: 'Testing', description: 'Software testing methodologies' },
+  { id: 'skill-34', name: 'Technical Writing', category: 'Communication', description: 'Documentation and specifications' },
+  { id: 'skill-35', name: 'Graphic Design', category: 'Design', description: 'Visual design and branding' },
+  { id: 'skill-36', name: 'Sales', category: 'Business', description: 'Sales strategy and execution' },
+  { id: 'skill-37', name: 'Supply Chain', category: 'Operations', description: 'Logistics and supply chain management' },
+  { id: 'skill-38', name: 'Public Speaking', category: 'Soft Skills', description: 'Presentation and oratory skills' },
+  { id: 'skill-39', name: 'Networking', category: 'Infrastructure', description: 'Computer networking and protocols' },
+  { id: 'skill-40', name: 'Research', category: 'Academic', description: 'Research methodology and analysis' },
 ];
 
 export const jobRoles: JobRole[] = [
@@ -58,6 +122,19 @@ export const jobRoles: JobRole[] = [
     { skillId: 'skill-5', requiredLevel: 'advanced' }, { skillId: 'skill-6', requiredLevel: 'advanced' },
     { skillId: 'skill-3', requiredLevel: 'intermediate' }, { skillId: 'skill-7', requiredLevel: 'intermediate' },
   ]},
+];
+
+export const careerPaths: CareerPath[] = [
+  { id: 'career-1', title: 'Software Engineer', description: 'Design, develop, and maintain software applications', requiredSkills: ['React', 'TypeScript', 'Node.js', 'System Design', 'SQL', 'Docker'], certifications: ['Meta Frontend Developer', 'AWS Solutions Architect'], courses: ['Advanced React Patterns', 'TypeScript Deep Dive', 'System Design Interview Prep'], timeline: '6-12 months', salaryRange: '$80k - $150k' },
+  { id: 'career-2', title: 'Data Scientist', description: 'Analyze complex data to drive business decisions', requiredSkills: ['Python', 'Machine Learning', 'Statistics', 'SQL', 'Data Analysis'], certifications: ['Google Data Analytics', 'IBM Data Science'], courses: ['Python for Data Science', 'Machine Learning A-Z'], timeline: '8-14 months', salaryRange: '$90k - $160k' },
+  { id: 'career-3', title: 'AI Engineer', description: 'Build and deploy AI/ML models at scale', requiredSkills: ['Python', 'Machine Learning', 'Natural Language Processing', 'Cloud Architecture', 'Docker'], certifications: ['AWS ML Specialty', 'TensorFlow Developer'], courses: ['Deep Learning Specialization', 'MLOps'], timeline: '10-18 months', salaryRange: '$100k - $180k' },
+  { id: 'career-4', title: 'UI/UX Designer', description: 'Create intuitive and beautiful user experiences', requiredSkills: ['UX Design', 'Figma', 'Product Design', 'Communication', 'Research'], certifications: ['Google UX Design Certificate', 'Nielsen Norman UX'], courses: ['UX Design Fundamentals', 'Figma Masterclass'], timeline: '4-8 months', salaryRange: '$70k - $130k' },
+  { id: 'career-5', title: 'Product Designer', description: 'Shape product strategy through design thinking', requiredSkills: ['Product Design', 'UX Design', 'Figma', 'Communication', 'Data Analysis'], certifications: ['Certified Product Designer'], courses: ['Product Design Sprint', 'Design Thinking'], timeline: '6-10 months', salaryRange: '$80k - $140k' },
+  { id: 'career-6', title: 'Product Manager', description: 'Drive product strategy and execution', requiredSkills: ['Agile/Scrum', 'Data Analysis', 'Communication', 'Leadership', 'Business Strategy'], certifications: ['Certified Scrum Product Owner', 'PMP'], courses: ['Product Management 101', 'Certified Scrum Master'], timeline: '6-12 months', salaryRange: '$90k - $160k' },
+  { id: 'career-7', title: 'Business Analyst', description: 'Bridge business needs with technical solutions', requiredSkills: ['Data Analysis', 'SQL', 'Communication', 'Business Strategy', 'Project Management'], certifications: ['CBAP', 'PMI-PBA'], courses: ['Business Analysis Fundamentals', 'SQL Performance Tuning'], timeline: '4-8 months', salaryRange: '$70k - $120k' },
+  { id: 'career-8', title: 'DevOps Engineer', description: 'Automate and optimize software delivery pipelines', requiredSkills: ['Docker', 'AWS', 'DevOps', 'Node.js', 'Cybersecurity'], certifications: ['AWS DevOps Professional', 'Docker Certified Associate'], courses: ['Docker & Kubernetes Mastery', 'AWS Solutions Architect'], timeline: '8-14 months', salaryRange: '$90k - $155k' },
+  { id: 'career-9', title: 'Cybersecurity Analyst', description: 'Protect organizations from digital threats', requiredSkills: ['Cybersecurity', 'Networking', 'Python', 'Cloud Architecture', 'DevOps'], certifications: ['CompTIA Security+', 'CISSP'], courses: ['Cybersecurity Fundamentals', 'Ethical Hacking'], timeline: '8-14 months', salaryRange: '$80k - $140k' },
+  { id: 'career-10', title: 'Mobile App Developer', description: 'Build native and cross-platform mobile applications', requiredSkills: ['React', 'TypeScript', 'Mobile Development', 'UX Design', 'DevOps'], certifications: ['Google Associate Android Developer'], courses: ['React Native Masterclass', 'Flutter & Dart'], timeline: '6-10 months', salaryRange: '$75k - $140k' },
 ];
 
 export const employeeSkills: Record<string, EmployeeSkill[]> = {
@@ -117,6 +194,27 @@ export const employeeSkills: Record<string, EmployeeSkill[]> = {
     { skillId: 'skill-10', level: 'beginner', targetLevel: 'intermediate', lastAssessed: '2025-12-01', score: 32 },
     { skillId: 'skill-11', level: 'advanced', targetLevel: 'advanced', lastAssessed: '2026-01-20', score: 78 },
   ],
+  'user-14': [
+    { skillId: 'skill-9', level: 'intermediate', targetLevel: 'advanced', lastAssessed: '2026-01-08', score: 52 },
+    { skillId: 'skill-10', level: 'intermediate', targetLevel: 'advanced', lastAssessed: '2025-12-15', score: 58 },
+    { skillId: 'skill-11', level: 'beginner', targetLevel: 'intermediate', lastAssessed: '2025-11-20', score: 33 },
+  ],
+  'user-15': [
+    { skillId: 'skill-9', level: 'advanced', targetLevel: 'expert', lastAssessed: '2026-01-15', score: 75 },
+    { skillId: 'skill-10', level: 'intermediate', targetLevel: 'advanced', lastAssessed: '2026-01-02', score: 62 },
+  ],
+  'user-16': [
+    { skillId: 'skill-12', level: 'beginner', targetLevel: 'intermediate', lastAssessed: '2025-12-20', score: 35 },
+    { skillId: 'skill-10', level: 'beginner', targetLevel: 'intermediate', lastAssessed: '2025-11-10', score: 28 },
+  ],
+  'user-17': [
+    { skillId: 'skill-12', level: 'intermediate', targetLevel: 'advanced', lastAssessed: '2026-01-10', score: 55 },
+    { skillId: 'skill-10', level: 'intermediate', targetLevel: 'advanced', lastAssessed: '2025-12-25', score: 50 },
+  ],
+  'user-18': [
+    { skillId: 'skill-5', level: 'intermediate', targetLevel: 'advanced', lastAssessed: '2026-01-05', score: 48 },
+    { skillId: 'skill-6', level: 'beginner', targetLevel: 'intermediate', lastAssessed: '2025-12-01', score: 30 },
+  ],
 };
 
 export const questions: Question[] = [
@@ -150,17 +248,17 @@ export const questions: Question[] = [
   { id: 'q-21', skillId: 'skill-7', text: 'How do window functions differ from aggregate functions in execution?', options: ['Window functions operate on a set of rows related to current row without collapsing', 'They are identical', 'Window functions are faster', 'Aggregate functions support OVER clause'], correctAnswer: 0, difficulty: 'hard', explanation: 'Window functions compute across row sets related to current row without grouping into single output row.' },
   // System Design (skill-8)
   { id: 'q-22', skillId: 'skill-8', text: 'What does horizontal scaling mean?', options: ['Adding more RAM', 'Adding more servers', 'Upgrading CPU', 'Adding more disk space'], correctAnswer: 1, difficulty: 'easy', explanation: 'Horizontal scaling means adding more machines to distribute load.' },
-  { id: 'q-23', skillId: 'skill-8', text: 'What is the CAP theorem?', options: ['Consistency, Availability, Partition tolerance trade-off', 'Cache, Access, Performance model', 'Compute, Analyze, Process framework', 'Client, API, Provider pattern'], correctAnswer: 0, difficulty: 'medium', explanation: 'CAP theorem states distributed systems can guarantee at most 2 of 3: Consistency, Availability, Partition Tolerance.' },
-  { id: 'q-24', skillId: 'skill-8', text: 'How does consistent hashing solve the rehashing problem?', options: ['By mapping servers and keys to a ring, minimizing key redistribution', 'By using random assignment', 'By duplicating all data', 'By sorting hash values'], correctAnswer: 0, difficulty: 'hard', explanation: 'Consistent hashing maps both keys and servers to a ring, so only K/n keys move on server changes.' },
+  { id: 'q-23', skillId: 'skill-8', text: 'What is the CAP theorem?', options: ['Consistency, Availability, Partition tolerance trade-off', 'Cache, Access, Performance model', 'Compute, Analyze, Process framework', 'Client, API, Provider pattern'], correctAnswer: 0, difficulty: 'medium', explanation: 'CAP theorem states distributed systems can guarantee at most 2 of 3.' },
+  { id: 'q-24', skillId: 'skill-8', text: 'How does consistent hashing solve the rehashing problem?', options: ['By mapping servers and keys to a ring, minimizing key redistribution', 'By using random assignment', 'By duplicating all data', 'By sorting hash values'], correctAnswer: 0, difficulty: 'hard', explanation: 'Consistent hashing maps both keys and servers to a ring.' },
   // Agile (skill-9)
-  { id: 'q-25', skillId: 'skill-9', text: 'What is a Sprint in Scrum?', options: ['A planning meeting', 'A time-boxed iteration', 'A testing phase', 'A deployment step'], correctAnswer: 1, difficulty: 'easy', explanation: 'A Sprint is a time-boxed development iteration, typically 2-4 weeks.' },
-  { id: 'q-26', skillId: 'skill-9', text: 'What is the difference between a Product Backlog and Sprint Backlog?', options: ['Product backlog is all items, sprint backlog is selected for current sprint', 'They are the same', 'Sprint backlog is longer term', 'Product backlog is owned by developers'], correctAnswer: 0, difficulty: 'medium', explanation: 'Product Backlog contains all work items; Sprint Backlog contains items selected for the current sprint.' },
+  { id: 'q-25', skillId: 'skill-9', text: 'What is a Sprint in Scrum?', options: ['A planning meeting', 'A time-boxed iteration', 'A testing phase', 'A deployment step'], correctAnswer: 1, difficulty: 'easy', explanation: 'A Sprint is a time-boxed development iteration.' },
+  { id: 'q-26', skillId: 'skill-9', text: 'What is the difference between a Product Backlog and Sprint Backlog?', options: ['Product backlog is all items, sprint backlog is selected for current sprint', 'They are the same', 'Sprint backlog is longer term', 'Product backlog is owned by developers'], correctAnswer: 0, difficulty: 'medium', explanation: 'Product Backlog contains all work items; Sprint Backlog contains items for the current sprint.' },
   // Data Analysis (skill-10)
   { id: 'q-27', skillId: 'skill-10', text: 'What is the median?', options: ['The average value', 'The middle value in a sorted dataset', 'The most frequent value', 'The range of values'], correctAnswer: 1, difficulty: 'easy', explanation: 'The median is the middle value when data is sorted.' },
-  { id: 'q-28', skillId: 'skill-10', text: 'What is the difference between correlation and causation?', options: ['Correlation implies relationship, causation implies one causes the other', 'They are the same', 'Causation is weaker', 'Correlation requires experiments'], correctAnswer: 0, difficulty: 'medium', explanation: 'Correlation shows relationship between variables; causation means one directly affects the other.' },
+  { id: 'q-28', skillId: 'skill-10', text: 'What is the difference between correlation and causation?', options: ['Correlation implies relationship, causation implies one causes the other', 'They are the same', 'Causation is weaker', 'Correlation requires experiments'], correctAnswer: 0, difficulty: 'medium', explanation: 'Correlation shows relationship; causation means one directly affects the other.' },
   // UX Design (skill-11)
   { id: 'q-29', skillId: 'skill-11', text: 'What is a wireframe?', options: ['Final design mockup', 'Low-fidelity layout sketch', 'Code prototype', 'User test script'], correctAnswer: 1, difficulty: 'easy', explanation: 'A wireframe is a low-fidelity representation of a page layout.' },
-  { id: 'q-30', skillId: 'skill-11', text: 'What is Fitts\'s Law?', options: ['Time to target depends on distance and target size', 'Users read left to right', 'Simple designs are better', 'Color affects usability'], correctAnswer: 0, difficulty: 'medium', explanation: 'Fitts\'s Law states that time to reach a target depends on distance to it and its size.' },
+  { id: 'q-30', skillId: 'skill-11', text: "What is Fitts's Law?", options: ['Time to target depends on distance and target size', 'Users read left to right', 'Simple designs are better', 'Color affects usability'], correctAnswer: 0, difficulty: 'medium', explanation: "Fitts's Law states that time to reach a target depends on distance and size." },
   // SEO (skill-12)
   { id: 'q-31', skillId: 'skill-12', text: 'What does SEO stand for?', options: ['Search Engine Optimization', 'Site Enhancement Operation', 'Search Entry Output', 'Social Engagement Online'], correctAnswer: 0, difficulty: 'easy', explanation: 'SEO stands for Search Engine Optimization.' },
   { id: 'q-32', skillId: 'skill-12', text: 'What are canonical tags used for?', options: ['Styling pages', 'Indicating preferred URL for duplicate content', 'Tracking users', 'Compressing images'], correctAnswer: 1, difficulty: 'medium', explanation: 'Canonical tags tell search engines which URL is the preferred version.' },
@@ -237,3 +335,26 @@ export const assessmentHistory: Assessment[] = [
   { id: 'assess-7', employeeId: 'user-3', skillId: 'skill-3', date: '2026-01-15', score: 75, totalQuestions: 10, correctAnswers: 7, timeSpent: 400, difficulty: 'medium', status: 'completed' },
   { id: 'assess-8', employeeId: 'user-3', skillId: 'skill-7', date: '2026-01-08', score: 72, totalQuestions: 10, correctAnswers: 7, timeSpent: 350, difficulty: 'medium', status: 'completed' },
 ];
+
+// Helper functions for relational filtering
+export function getEmployeesForManager(managerId: string): User[] {
+  return users.filter(u => u.role === 'employee' && u.managerId === managerId);
+}
+
+export function getManagerForEmployee(employeeId: string): User | undefined {
+  const employee = users.find(u => u.id === employeeId);
+  if (!employee?.managerId) return undefined;
+  return users.find(u => u.id === employee.managerId);
+}
+
+export function getAllManagers(): User[] {
+  return users.filter(u => u.role === 'manager');
+}
+
+export function getAllEmployees(): User[] {
+  return users.filter(u => u.role === 'employee');
+}
+
+export function getAllStudents(): User[] {
+  return users.filter(u => u.role === 'student');
+}

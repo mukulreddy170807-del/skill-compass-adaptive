@@ -1,4 +1,4 @@
-export type Role = 'employee' | 'manager' | 'hr';
+export type Role = 'admin' | 'employee' | 'manager' | 'hr' | 'student';
 export type SkillLevel = 'beginner' | 'intermediate' | 'advanced' | 'expert';
 export type Difficulty = 'easy' | 'medium' | 'hard';
 
@@ -10,7 +10,7 @@ export interface User {
   department: string;
   jobRole: string;
   avatar: string;
-  managerId?: string;
+  managerId?: string; // Only for employees
 }
 
 export interface Skill {
@@ -25,7 +25,7 @@ export interface EmployeeSkill {
   level: SkillLevel;
   targetLevel: SkillLevel;
   lastAssessed: string;
-  score: number; // 0-100
+  score: number;
 }
 
 export interface Question {
@@ -46,7 +46,7 @@ export interface Assessment {
   score: number;
   totalQuestions: number;
   correctAnswers: number;
-  timeSpent: number; // seconds
+  timeSpent: number;
   difficulty: Difficulty;
   status: 'completed' | 'in-progress' | 'pending';
 }
@@ -76,7 +76,7 @@ export interface Certification {
 export interface EmployeeCourse {
   courseId: string;
   employeeId: string;
-  progress: number; // 0-100
+  progress: number;
   startedDate: string;
   completedDate?: string;
   status: 'not-started' | 'in-progress' | 'completed';
@@ -100,6 +100,24 @@ export interface Department {
   id: string;
   name: string;
   managerId: string;
+}
+
+export interface CareerPath {
+  id: string;
+  title: string;
+  description: string;
+  requiredSkills: string[];
+  certifications: string[];
+  courses: string[];
+  timeline: string;
+  salaryRange: string;
+}
+
+export interface CareerQuestion {
+  id: string;
+  text: string;
+  category: 'interest' | 'workstyle' | 'strength' | 'education' | 'goal';
+  options: { label: string; value: string; tags: string[] }[];
 }
 
 export const SKILL_LEVEL_VALUES: Record<SkillLevel, number> = {
