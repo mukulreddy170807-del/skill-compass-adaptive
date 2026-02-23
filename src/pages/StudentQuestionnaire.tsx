@@ -73,6 +73,8 @@ export default function StudentQuestionnaire() {
 
       localStorage.setItem(`career-results-${user.id}`, JSON.stringify(topResults));
       localStorage.setItem(`career-answers-${user.id}`, JSON.stringify(answers));
+      // Clear cached roadmaps so fresh ones are generated
+      localStorage.removeItem(`career-roadmaps-${user.id}`);
       navigate('/student/roadmap');
     } catch (error) {
       console.error('Failed to get career recommendations:', error);
@@ -97,6 +99,8 @@ export default function StudentQuestionnaire() {
 
       localStorage.setItem(`career-results-${user.id}`, JSON.stringify(topResults));
       localStorage.setItem(`career-answers-${user.id}`, JSON.stringify(answers));
+      // Clear cached roadmaps so fresh ones are generated
+      localStorage.removeItem(`career-roadmaps-${user.id}`);
       navigate('/student/roadmap');
     } finally {
       setLoading(false);

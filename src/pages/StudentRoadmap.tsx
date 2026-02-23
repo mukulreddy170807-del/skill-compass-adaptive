@@ -18,11 +18,27 @@ export default function StudentRoadmap() {
   const [roadmaps, setRoadmaps] = useState<Record<string, RoadmapStep[]>>({});
 
   const storageKey = `career-results-${user.id}`;
+  const roadmapsStorageKey = `career-roadmaps-${user.id}`;
   const savedResults = localStorage.getItem(storageKey);
 
   useEffect(() => {
     if (savedResults && useAI) {
-      generateAIRoadmaps();
+      // Check if roadmaps are already cached
+      const cachedRoadmaps = localStorage.getItem(roadmapsStorageKey);
+      
+      if (cachedRoadmaps) {
+        // Load cached roadmaps instead of regenerating
+        try {
+          const parsedRoadmaps = JSON.parse(cachedRoadmaps);
+          setRoadmaps(parsedRoadmaps);
+        } catch (error) {
+          console.error('Failed to load cached roadmaps:', error);
+          generateAIRoadmaps();
+        }
+      } else {
+        // No cache found, generate new roadmaps
+        generateAIRoadmaps();
+      }
     }
   }, [savedResults, useAI]);
 
@@ -52,6 +68,8 @@ export default function StudentRoadmap() {
     }
     
     setRoadmaps(newRoadmaps);
+    // Save generated roadmaps to localStorage for future visits
+    localStorage.setItem(roadmapsStorageKey, JSON.stringify(newRoadmaps));
     setLoading(false);
   };
 
@@ -78,18 +96,41 @@ export default function StudentRoadmap() {
             <p className="text-muted-foreground text-sm mt-1">Personalized learning paths based on your results</p>
           </div>
         </div>
-        <Button
-          variant={useAI ? 'default' : 'outline'}
-          size="sm"
-          onClick={() => {
-            setUseAI(!useAI);
-            if (!useAI) generateAIRoadmaps();
-          }}
-          className="gap-2"
-        >
-          <Sparkles className="w-4 h-4" />
-          {useAI ? 'AI Mode: ON' : 'AI Mode: OFF'}
-        </Button>
+        <div className="flex gap-2">
+          <Button
+            variant="outline"
+            size="sm"
+            onClick={() => {
+              // Clear cache and regenerate roadmaps
+              localStorage.removeItem(roadmapsStorageKey);
+              setRoadmaps({});
+              generateAIRoadmaps();
+            }}
+            className="gap-2"
+          >
+            <Sparkles className="w-4 h-4" />
+            Regenerate
+          </Button>
+          <Button
+            variant={useAI ? 'default' : 'outline'}
+            size="sm"
+            onClick={() => {
+              setUseAI(!useAI);
+              if (!useAI) {
+                const cachedRoadmaps = localStorage.getItem(roadmapsStorageKey);
+                if (cachedRoadmaps) {
+                  setRoadmaps(JSON.parse(cachedRoadmaps));
+                } else {
+                  generateAIRoadmaps();
+                }
+              }
+            }}
+            className="gap-2"
+          >
+            <Sparkles className="w-4 h-4" />
+            {useAI ? 'AI Mode: ON' : 'AI Mode: OFF'}
+          </Button>
+        </div>
       </div>
 
       {useAI && (

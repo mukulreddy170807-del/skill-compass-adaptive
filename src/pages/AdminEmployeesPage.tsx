@@ -4,22 +4,74 @@ import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import { Badge } from '@/components/ui/badge';
-import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogTrigger } from '@/components/ui/dialog';
+import { Dialog, DialogContent, DialogDescription, DialogHeader, DialogTitle, DialogTrigger } from '@/components/ui/dialog';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
-import { Plus, Trash2 } from 'lucide-react';
+import { Alert, AlertDescription, AlertTitle } from '@/components/ui/alert';
+import { Plus, Trash2, Copy, CheckCircle2 } from 'lucide-react';
 import { getAllManagers, getAllEmployees, getManagerForEmployee } from '@/data/mockData';
 import { useToast } from '@/hooks/use-toast';
+import { useUserStore } from '@/store/userStore';
+import { generateEmail, generatePassword, generateAvatar, generateUserId } from '@/lib/credentialsUtils';
+import type { User } from '@/types';
 
 export default function AdminEmployeesPage() {
   const { toast } = useToast();
-  const managers = getAllManagers();
-  const employees = getAllEmployees();
+  const dynamicUsers = useUserStore((s) => s.dynamicUsers);
+  const addUser = useUserStore((s) => s.addUser);
+  const managers = getAllManagers(); // This now includes dynamic users
+  const employees = getAllEmployees(); // This now includes dynamic users
   const [open, setOpen] = useState(false);
+  const [name, setName] = useState('');
+  const [managerId, setManagerId] = useState('');
+  const [createdCredentials, setCreatedCredentials] = useState<{ email: string; password: string } | null>(null);
 
   const handleCreate = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    toast({ title: 'Employee Created', description: 'New employee account has been created (mock).' });
+    
+    // Find selected manager to get department
+    const selectedManager = managers.find(m => m.id === managerId);
+    if (!selectedManager) return;
+    
+    // Generate credentials
+    const email = generateEmail(name, 'employee');
+    const password = generatePassword(name);
+    const avatar = generateAvatar(name);
+    const userId = generateUserId('employee');
+    
+    // Create user object
+    const newEmployee: User = {
+      id: userId,
+      name: name,
+      email: email,
+      role: 'employee',
+      department: selectedManager.department,
+      jobRole: '', // Can be set later
+      avatar: avatar,
+      managerId: managerId
+    };
+    
+    // Add to user store
+    addUser(newEmployee);
+    
+    // Show credentials to admin
+    setCreatedCredentials({ email, password });
+    
+    toast({ 
+      title: 'Employee Created', 
+      description: `${name} has been created successfully.` 
+    });
+  };
+  
+  const handleCloseDialog = () => {
     setOpen(false);
+    setName('');
+    setManagerId('');
+    setCreatedCredentials(null);
+  };
+  
+  const copyToClipboard = (text: string, label: string) => {
+    navigator.clipboard.writeText(text);
+    toast({ title: 'Copied', description: `${label} copied to clipboard` });
   };
 
   // Group employees by manager
@@ -40,21 +92,83 @@ export default function AdminEmployeesPage() {
             <Button size="sm"><Plus className="w-4 h-4 mr-1" />Add Employee</Button>
           </DialogTrigger>
           <DialogContent>
-            <DialogHeader><DialogTitle>Create Employee</DialogTitle></DialogHeader>
-            <form onSubmit={handleCreate} className="space-y-4">
-              <div className="space-y-2"><Label>Name</Label><Input placeholder="Full name" required /></div>
-              <div className="space-y-2"><Label>Email</Label><Input type="email" placeholder="email@company.com" required /></div>
-              <div className="space-y-2">
-                <Label>Assign Manager</Label>
-                <Select required>
-                  <SelectTrigger><SelectValue placeholder="Select manager" /></SelectTrigger>
-                  <SelectContent>
-                    {managers.map(m => <SelectItem key={m.id} value={m.id}>{m.name} ({m.department})</SelectItem>)}
-                  </SelectContent>
-                </Select>
+            <DialogHeader>
+              <DialogTitle>Create Employee</DialogTitle>
+              <DialogDescription>
+                Add a new employee account with auto-generated credentials
+              </DialogDescription>
+            </DialogHeader>
+            
+            {!createdCredentials ? (
+              <form onSubmit={handleCreate} className="space-y-4">
+                <div className="space-y-2">
+                  <Label>Name</Label>
+                  <Input 
+                    placeholder="Full name" 
+                    value={name}
+                    onChange={(e) => setName(e.target.value)}
+                    required 
+                  />
+                </div>
+                <div className="space-y-2">
+                  <Label>Assign Manager</Label>
+                  <Select value={managerId} onValueChange={setManagerId} required>
+                    <SelectTrigger><SelectValue placeholder="Select manager" /></SelectTrigger>
+                    <SelectContent>
+                      {managers.map(m => <SelectItem key={m.id} value={m.id}>{m.name} ({m.department})</SelectItem>)}
+                    </SelectContent>
+                  </Select>
+                </div>
+                <p className="text-xs text-muted-foreground">
+                  Email and password will be auto-generated based on the name.
+                </p>
+                <Button type="submit" className="w-full">Create Employee</Button>
+              </form>
+            ) : (
+              <div className="space-y-4">
+                <Alert>
+                  <CheckCircle2 className="h-4 w-4" />
+                  <AlertTitle>Employee Created Successfully!</AlertTitle>
+                  <AlertDescription>
+                    Share these credentials with the employee. They can use them to log in.
+                  </AlertDescription>
+                </Alert>
+                
+                <div className="space-y-3 p-4 bg-muted rounded-lg">
+                  <div className="space-y-2">
+                    <Label className="text-xs text-muted-foreground">Email</Label>
+                    <div className="flex items-center gap-2">
+                      <Input value={createdCredentials.email} readOnly className="font-mono text-sm" />
+                      <Button 
+                        size="sm" 
+                        variant="outline"
+                        onClick={() => copyToClipboard(createdCredentials.email, 'Email')}
+                      >
+                        <Copy className="w-4 h-4" />
+                      </Button>
+                    </div>
+                  </div>
+                  
+                  <div className="space-y-2">
+                    <Label className="text-xs text-muted-foreground">Password</Label>
+                    <div className="flex items-center gap-2">
+                      <Input value={createdCredentials.password} readOnly className="font-mono text-sm" />
+                      <Button 
+                        size="sm" 
+                        variant="outline"
+                        onClick={() => copyToClipboard(createdCredentials.password, 'Password')}
+                      >
+                        <Copy className="w-4 h-4" />
+                      </Button>
+                    </div>
+                  </div>
+                </div>
+                
+                <Button onClick={handleCloseDialog} className="w-full">
+                  Done
+                </Button>
               </div>
-              <Button type="submit" className="w-full">Create Employee</Button>
-            </form>
+            )}
           </DialogContent>
         </Dialog>
       </div>

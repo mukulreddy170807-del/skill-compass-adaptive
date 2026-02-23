@@ -2,6 +2,7 @@ import { create } from 'zustand';
 import { persist } from 'zustand/middleware';
 import type { User, Role } from '@/types';
 import { users } from '@/data/mockData';
+import { useUserStore } from './userStore';
 
 interface AuthState {
   user: User | null;
@@ -24,8 +25,17 @@ export const useAuthStore = create<AuthState>()(
       token: null,
       isAuthenticated: false,
       login: (email: string, _password: string) => {
-        const user = users.find((u) => u.email === email);
+        // Check mockData users first
+        let user = users.find((u) => u.email === email);
+        
+        // If not found in mockData, check dynamic users
+        if (!user) {
+          const dynamicUsers = useUserStore.getState().dynamicUsers;
+          user = dynamicUsers.find((u) => u.email === email);
+        }
+        
         if (!user) return { success: false, error: 'Invalid credentials' };
+        
         const token = createMockJWT(user);
         set({ user, token, isAuthenticated: true });
         return { success: true };

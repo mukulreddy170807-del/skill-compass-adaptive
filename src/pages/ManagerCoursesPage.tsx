@@ -1,5 +1,6 @@
 import { useState } from 'react';
 import { useAuthStore } from '@/store/authStore';
+import { useUserStore } from '@/store/userStore';
 import { useCourseStore } from '@/store/courseStore';
 import { useCertificationStore } from '@/store/certificationStore';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
@@ -14,9 +15,10 @@ import type { Course } from '@/types';
 
 export default function ManagerCoursesPage() {
   const user = useAuthStore((s) => s.user)!;
+  const dynamicUsers = useUserStore((s) => s.dynamicUsers); // Subscribe to user changes
   const { courses: allCourses, addCourse } = useCourseStore();
   const { certifications: allCertifications } = useCertificationStore();
-  const teamMembers = getEmployeesForManager(user.id);
+  const teamMembers = getEmployeesForManager(user.id); // This now includes dynamic users
   
   const [selectedEmployee, setSelectedEmployee] = useState<string>('');
   const [selectedCourse, setSelectedCourse] = useState<string>('');

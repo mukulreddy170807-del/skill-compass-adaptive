@@ -1,11 +1,13 @@
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Users, UserCheck, GraduationCap, Shield, BookOpen, Award, ClipboardCheck, TrendingUp } from 'lucide-react';
 import { users, getAllManagers, getAllEmployees, getAllStudents, getEmployeesForManager } from '@/data/mockData';
+import { useUserStore } from '@/store/userStore';
 import { useCourseStore } from '@/store/courseStore';
 import { useCertificationStore } from '@/store/certificationStore';
 import { BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer } from 'recharts';
 
 export default function AdminDashboard() {
+  const dynamicUsers = useUserStore((s) => s.dynamicUsers); // Subscribe to user changes
   const managers = getAllManagers();
   const employees = getAllEmployees();
   const students = getAllStudents();
@@ -67,15 +69,21 @@ export default function AdminDashboard() {
       <Card>
         <CardHeader className="pb-2"><CardTitle className="text-base">Employees per Manager</CardTitle></CardHeader>
         <CardContent>
-          <ResponsiveContainer width="100%" height={300}>
-            <BarChart data={empPerManager}>
-              <CartesianGrid strokeDasharray="3 3" stroke="hsl(var(--border))" />
-              <XAxis dataKey="name" tick={{ fontSize: 11, fill: 'hsl(var(--muted-foreground))' }} />
-              <YAxis tick={{ fontSize: 11, fill: 'hsl(var(--muted-foreground))' }} />
-              <Tooltip contentStyle={{ backgroundColor: 'hsl(var(--card))', border: '1px solid hsl(var(--border))', borderRadius: 8, fontSize: 12 }} />
-              <Bar dataKey="employees" fill="hsl(var(--primary))" radius={[4, 4, 0, 0]} />
-            </BarChart>
-          </ResponsiveContainer>
+          {empPerManager.length > 0 ? (
+            <ResponsiveContainer width="100%" height={300}>
+              <BarChart data={empPerManager}>
+                <CartesianGrid strokeDasharray="3 3" stroke="hsl(var(--border))" />
+                <XAxis dataKey="name" tick={{ fontSize: 11, fill: 'hsl(var(--muted-foreground))' }} />
+                <YAxis tick={{ fontSize: 11, fill: 'hsl(var(--muted-foreground))' }} />
+                <Tooltip contentStyle={{ backgroundColor: 'hsl(var(--card))', border: '1px solid hsl(var(--border))', borderRadius: 8, fontSize: 12 }} />
+                <Bar dataKey="employees" fill="hsl(var(--primary))" radius={[4, 4, 0, 0]} />
+              </BarChart>
+            </ResponsiveContainer>
+          ) : (
+            <div className="h-[300px] flex items-center justify-center text-sm text-muted-foreground">
+              No managers available yet
+            </div>
+          )}
         </CardContent>
       </Card>
 

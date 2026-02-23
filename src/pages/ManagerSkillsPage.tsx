@@ -3,9 +3,11 @@ import { Badge } from '@/components/ui/badge';
 import { employeeSkills, skills, getEmployeesForManager } from '@/data/mockData';
 import { SKILL_LEVEL_LABELS } from '@/types';
 import { useAuthStore } from '@/store/authStore';
+import { useUserStore } from '@/store/userStore';
 
 export default function ManagerSkillsPage() {
   const user = useAuthStore((s) => s.user)!;
+  const dynamicUsers = useUserStore((s) => s.dynamicUsers); // Subscribe to user changes
   const teamMembers = getEmployeesForManager(user.id);
 
   // Build heatmap data: rows = employees, columns = skills

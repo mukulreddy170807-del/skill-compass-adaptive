@@ -1,4 +1,5 @@
 import type { User, Skill, Question, Course, Certification, JobRole, Department, EmployeeSkill, EmployeeCourse, EmployeeCertification, Assessment, CareerPath } from '@/types';
+import { useUserStore } from '@/store/userStore';
 
 export const departments: Department[] = [
   { id: 'dept-1', name: 'Engineering', managerId: 'mgr-1' },
@@ -403,23 +404,30 @@ export const assessmentHistory: Assessment[] = [
 
 // Helper functions for relational filtering
 export function getEmployeesForManager(managerId: string): User[] {
-  return users.filter(u => u.role === 'employee' && u.managerId === managerId);
+  const dynamicUsers = useUserStore.getState().dynamicUsers;
+  const allUsers = [...users, ...dynamicUsers];
+  return allUsers.filter(u => u.role === 'employee' && u.managerId === managerId);
 }
 
 export function getManagerForEmployee(employeeId: string): User | undefined {
-  const employee = users.find(u => u.id === employeeId);
+  const dynamicUsers = useUserStore.getState().dynamicUsers;
+  const allUsers = [...users, ...dynamicUsers];
+  const employee = allUsers.find(u => u.id === employeeId);
   if (!employee?.managerId) return undefined;
-  return users.find(u => u.id === employee.managerId);
+  return allUsers.find(u => u.id === employee.managerId);
 }
 
 export function getAllManagers(): User[] {
-  return users.filter(u => u.role === 'manager');
+  const dynamicUsers = useUserStore.getState().dynamicUsers;
+  return [...users.filter(u => u.role === 'manager'), ...dynamicUsers.filter(u => u.role === 'manager')];
 }
 
 export function getAllEmployees(): User[] {
-  return users.filter(u => u.role === 'employee');
+  const dynamicUsers = useUserStore.getState().dynamicUsers;
+  return [...users.filter(u => u.role === 'employee'), ...dynamicUsers.filter(u => u.role === 'employee')];
 }
 
 export function getAllStudents(): User[] {
-  return users.filter(u => u.role === 'student');
+  const dynamicUsers = useUserStore.getState().dynamicUsers;
+  return [...users.filter(u => u.role === 'student'), ...dynamicUsers.filter(u => u.role === 'student')];
 }

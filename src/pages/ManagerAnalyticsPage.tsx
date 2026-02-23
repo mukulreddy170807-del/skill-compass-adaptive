@@ -1,10 +1,12 @@
 import { useAuthStore } from '@/store/authStore';
+import { useUserStore } from '@/store/userStore';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { employeeSkills, skills, assessmentHistory, getEmployeesForManager } from '@/data/mockData';
 import { BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer, LineChart, Line, Legend } from 'recharts';
 
 export default function ManagerAnalyticsPage() {
   const user = useAuthStore((s) => s.user)!;
+  const dynamicUsers = useUserStore((s) => s.dynamicUsers); // Subscribe to user changes
   const teamMembers = getEmployeesForManager(user.id);
 
   // Team assessment trend
