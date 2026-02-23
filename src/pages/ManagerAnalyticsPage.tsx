@@ -1,11 +1,11 @@
 import { useAuthStore } from '@/store/authStore';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
-import { users, employeeSkills, skills, assessmentHistory } from '@/data/mockData';
+import { employeeSkills, skills, assessmentHistory, getEmployeesForManager } from '@/data/mockData';
 import { BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer, LineChart, Line, Legend } from 'recharts';
 
 export default function ManagerAnalyticsPage() {
   const user = useAuthStore((s) => s.user)!;
-  const teamMembers = users.filter((u) => u.role === 'employee' && u.department === user.department);
+  const teamMembers = getEmployeesForManager(user.id);
 
   // Team assessment trend
   const months = ['10', '11', '12', '01'];

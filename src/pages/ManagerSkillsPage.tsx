@@ -1,12 +1,12 @@
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
-import { users, employeeSkills, skills, departments } from '@/data/mockData';
+import { employeeSkills, skills, getEmployeesForManager } from '@/data/mockData';
 import { SKILL_LEVEL_LABELS } from '@/types';
 import { useAuthStore } from '@/store/authStore';
 
 export default function ManagerSkillsPage() {
   const user = useAuthStore((s) => s.user)!;
-  const teamMembers = users.filter((u) => u.role === 'employee' && u.department === user.department);
+  const teamMembers = getEmployeesForManager(user.id);
 
   // Build heatmap data: rows = employees, columns = skills
   const allSkillIds = new Set<string>();

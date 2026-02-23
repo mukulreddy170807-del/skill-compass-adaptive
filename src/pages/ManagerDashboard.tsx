@@ -3,13 +3,13 @@ import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
 import { Progress } from '@/components/ui/progress';
 import { Users, Target, TrendingUp, AlertTriangle } from 'lucide-react';
-import { users, employeeSkills, skills, assessmentHistory, jobRoles } from '@/data/mockData';
+import { employeeSkills, skills, assessmentHistory, getEmployeesForManager } from '@/data/mockData';
 import { SKILL_LEVEL_LABELS, SKILL_LEVEL_VALUES } from '@/types';
 import { BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer, RadarChart, PolarGrid, PolarAngleAxis, PolarRadiusAxis, Radar } from 'recharts';
 
 export default function ManagerDashboard() {
   const user = useAuthStore((s) => s.user)!;
-  const teamMembers = users.filter((u) => u.role === 'employee' && u.department === user.department);
+  const teamMembers = getEmployeesForManager(user.id);
 
   const teamSkillData: Record<string, number[]> = {};
   teamMembers.forEach((member) => {
