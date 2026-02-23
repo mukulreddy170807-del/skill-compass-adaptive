@@ -2,7 +2,7 @@ import { Outlet, NavLink, useNavigate } from 'react-router-dom';
 import { useAuthStore, getRoleDashboardPath } from '@/store/authStore';
 import {
   LayoutDashboard, Target, BookOpen, Award, BarChart3, Users, Settings,
-  LogOut, ChevronLeft, ChevronRight, Shield, ClipboardCheck
+  LogOut, ChevronLeft, ChevronRight, Shield, ClipboardCheck, GraduationCap, Compass, Map
 } from 'lucide-react';
 import { useState } from 'react';
 import { Button } from '@/components/ui/button';
@@ -16,24 +16,37 @@ interface NavItem {
 }
 
 const navItems: NavItem[] = [
+  // Admin
+  { label: 'Dashboard', path: '/admin', icon: LayoutDashboard, roles: ['admin'] },
+  { label: 'Managers', path: '/admin/managers', icon: Shield, roles: ['admin'] },
+  { label: 'Employees', path: '/admin/employees', icon: Users, roles: ['admin'] },
+  // Employee
   { label: 'Dashboard', path: '/dashboard', icon: LayoutDashboard, roles: ['employee'] },
   { label: 'My Skills', path: '/skills', icon: Target, roles: ['employee'] },
   { label: 'Assessments', path: '/assessments', icon: ClipboardCheck, roles: ['employee'] },
   { label: 'Learning', path: '/learning', icon: BookOpen, roles: ['employee'] },
   { label: 'Certifications', path: '/certifications', icon: Award, roles: ['employee'] },
+  // Manager
   { label: 'Dashboard', path: '/manager', icon: LayoutDashboard, roles: ['manager'] },
   { label: 'Team Skills', path: '/manager/skills', icon: Target, roles: ['manager'] },
   { label: 'Team Analytics', path: '/manager/analytics', icon: BarChart3, roles: ['manager'] },
+  // HR
   { label: 'Dashboard', path: '/hr', icon: LayoutDashboard, roles: ['hr'] },
   { label: 'Employees', path: '/hr/employees', icon: Users, roles: ['hr'] },
   { label: 'Org Analytics', path: '/hr/analytics', icon: BarChart3, roles: ['hr'] },
   { label: 'Certifications', path: '/hr/certifications', icon: Award, roles: ['hr'] },
+  // Student
+  { label: 'Dashboard', path: '/student', icon: LayoutDashboard, roles: ['student'] },
+  { label: 'Questionnaire', path: '/student/questionnaire', icon: Compass, roles: ['student'] },
+  { label: 'Roadmap', path: '/student/roadmap', icon: Map, roles: ['student'] },
 ];
 
 const roleLabels: Record<Role, string> = {
+  admin: 'Admin',
   employee: 'Employee',
   manager: 'Manager',
   hr: 'HR Admin',
+  student: 'Student',
 };
 
 export default function AppLayout() {
@@ -52,19 +65,16 @@ export default function AppLayout() {
 
   return (
     <div className="min-h-screen flex w-full bg-background">
-      {/* Sidebar */}
       <aside
         className={`sidebar-gradient flex flex-col transition-all duration-200 ${
           collapsed ? 'w-16' : 'w-60'
         } flex-shrink-0`}
       >
-        {/* Logo */}
         <div className="flex items-center gap-2 px-4 h-14 border-b border-sidebar-border">
           <Shield className="w-6 h-6 text-sidebar-primary flex-shrink-0" />
           {!collapsed && <span className="font-bold text-sidebar-foreground text-sm tracking-tight">SkillTrack Pro</span>}
         </div>
 
-        {/* Nav */}
         <nav className="flex-1 py-3 px-2 space-y-0.5 overflow-y-auto">
           {filteredNav.map((item) => (
             <NavLink
@@ -85,7 +95,6 @@ export default function AppLayout() {
           ))}
         </nav>
 
-        {/* User / Collapse */}
         <div className="border-t border-sidebar-border p-3 space-y-2">
           {!collapsed && (
             <div className="flex items-center gap-2 px-1 mb-2">
@@ -120,9 +129,7 @@ export default function AppLayout() {
         </div>
       </aside>
 
-      {/* Main content */}
       <main className="flex-1 overflow-y-auto">
-        {/* Top bar */}
         <header className="h-14 border-b border-border flex items-center justify-between px-6 bg-card">
           <div />
           <div className="flex items-center gap-3">

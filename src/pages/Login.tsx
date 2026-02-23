@@ -8,9 +8,11 @@ import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/com
 import { Shield, AlertCircle } from 'lucide-react';
 
 const demoAccounts = [
-  { email: 'alex@company.com', role: 'Employee', label: 'Alex Chen' },
+  { email: 'admin@company.com', role: 'Admin', label: 'Diana Prince' },
   { email: 'michael@company.com', role: 'Manager', label: 'Michael Torres' },
+  { email: 'alex@company.com', role: 'Employee', label: 'Alex Chen' },
   { email: 'robert@company.com', role: 'HR Admin', label: 'Robert Adams' },
+  { email: 'ava@student.com', role: 'Student', label: 'Ava Johnson' },
 ];
 
 export default function Login() {
