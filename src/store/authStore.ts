@@ -38,8 +38,10 @@ export const useAuthStore = create<AuthState>()(
 
 export function getRoleDashboardPath(role: Role): string {
   switch (role) {
+    case 'admin': return '/admin';
     case 'employee': return '/dashboard';
     case 'manager': return '/manager';
     case 'hr': return '/hr';
+    case 'student': return '/student';
   }
 }
