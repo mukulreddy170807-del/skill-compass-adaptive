@@ -265,10 +265,71 @@ export const questions: Question[] = [
 ];
 
 export const courses: Course[] = [
-  { id: 'course-1', title: 'Advanced React Patterns', description: 'Master advanced React patterns including render props, compound components, and hooks.', skillId: 'skill-1', duration: '20 hours', level: 'advanced', provider: 'Frontend Masters', url: '#', thumbnail: '' },
-  { id: 'course-2', title: 'TypeScript Deep Dive', description: 'Comprehensive TypeScript course covering generics, utility types, and advanced patterns.', skillId: 'skill-2', duration: '15 hours', level: 'intermediate', provider: 'Udemy', url: '#', thumbnail: '' },
-  { id: 'course-3', title: 'Node.js Microservices', description: 'Build production-ready microservices with Node.js.', skillId: 'skill-3', duration: '25 hours', level: 'advanced', provider: 'Pluralsight', url: '#', thumbnail: '' },
-  { id: 'course-4', title: 'Python for Data Science', description: 'Learn Python with pandas, numpy, and matplotlib.', skillId: 'skill-4', duration: '30 hours', level: 'intermediate', provider: 'Coursera', url: '#', thumbnail: '' },
+  { 
+    id: 'course-1', 
+    title: 'Advanced React Patterns', 
+    description: 'Master advanced React patterns including render props, compound components, and hooks.', 
+    skillId: 'skill-1', 
+    duration: '20 hours', 
+    level: 'advanced', 
+    provider: 'Frontend Masters', 
+    url: '#', 
+    thumbnail: '',
+    contents: [
+      { id: 'content-1-1', title: 'Introduction to Advanced React', type: 'video', url: 'https://www.youtube.com/embed/dpw9EHDh2bM', duration: '15 min', description: 'Overview of advanced React concepts' },
+      { id: 'content-1-2', title: 'Render Props Pattern', type: 'video', url: 'https://www.youtube.com/embed/3IdCQ7QevqU', duration: '25 min', description: 'Deep dive into render props' },
+      { id: 'content-1-3', title: 'Compound Components', type: 'video', url: 'https://www.youtube.com/embed/hEGg-3pIHlE', duration: '30 min', description: 'Building reusable compound components' },
+      { id: 'content-1-4', title: 'Custom Hooks Mastery', type: 'video', url: 'https://www.youtube.com/embed/J-g9ZJha8FE', duration: '40 min', description: 'Creating custom React hooks' },
+    ]
+  },
+  { 
+    id: 'course-2', 
+    title: 'TypeScript Deep Dive', 
+    description: 'Comprehensive TypeScript course covering generics, utility types, and advanced patterns.', 
+    skillId: 'skill-2', 
+    duration: '15 hours', 
+    level: 'intermediate', 
+    provider: 'Udemy', 
+    url: '#', 
+    thumbnail: '',
+    contents: [
+      { id: 'content-2-1', title: 'TypeScript Fundamentals', type: 'video', url: 'https://www.youtube.com/embed/ahCwqrYpIuM', duration: '1 hour', description: 'TypeScript basics and setup' },
+      { id: 'content-2-2', title: 'Advanced Types', type: 'video', url: 'https://www.youtube.com/embed/nePDL5lQSE4', duration: '45 min', description: 'Generics and utility types' },
+      { id: 'content-2-3', title: 'Type Guards & Narrowing', type: 'video', url: 'https://www.youtube.com/embed/2qDyw7HRm5U', duration: '30 min', description: 'Type safety techniques' },
+    ]
+  },
+  { 
+    id: 'course-3', 
+    title: 'Node.js Microservices', 
+    description: 'Build production-ready microservices with Node.js.', 
+    skillId: 'skill-3', 
+    duration: '25 hours', 
+    level: 'advanced', 
+    provider: 'Pluralsight', 
+    url: '#', 
+    thumbnail: '',
+    contents: [
+      { id: 'content-3-1', title: 'Microservices Architecture', type: 'video', url: 'https://www.youtube.com/embed/CdBtNQZH8a4', duration: '50 min', description: 'Introduction to microservices' },
+      { id: 'content-3-2', title: 'Building APIs with Express', type: 'video', url: 'https://www.youtube.com/embed/Oe421EPjeBE', duration: '1 hour', description: 'RESTful API development' },
+      { id: 'content-3-3', title: 'Service Communication', type: 'video', url: 'https://www.youtube.com/embed/BZi_7JCLdv8', duration: '35 min', description: 'Inter-service communication patterns' },
+    ]
+  },
+  { 
+    id: 'course-4', 
+    title: 'Python for Data Science', 
+    description: 'Learn Python with pandas, numpy, and matplotlib.', 
+    skillId: 'skill-4', 
+    duration: '30 hours', 
+    level: 'intermediate', 
+    provider: 'Coursera', 
+    url: '#', 
+    thumbnail: '',
+    contents: [
+      { id: 'content-4-1', title: 'Python Basics for Data Science', type: 'video', url: 'https://www.youtube.com/embed/LHBE6Q9XlzI', duration: '2 hours', description: 'Python fundamentals' },
+      { id: 'content-4-2', title: 'NumPy for Data Analysis', type: 'video', url: 'https://www.youtube.com/embed/QUT1VHiLmmI', duration: '1 hour', description: 'Working with NumPy arrays' },
+      { id: 'content-4-3', title: 'Pandas Data Manipulation', type: 'video', url: 'https://www.youtube.com/embed/vmEHCJofslg', duration: '1.5 hours', description: 'Data wrangling with Pandas' },
+    ]
+  },
   { id: 'course-5', title: 'AWS Solutions Architect', description: 'Prepare for the AWS SAA certification exam.', skillId: 'skill-5', duration: '40 hours', level: 'advanced', provider: 'A Cloud Guru', url: '#', thumbnail: '' },
   { id: 'course-6', title: 'Docker & Kubernetes Mastery', description: 'Container orchestration from zero to production.', skillId: 'skill-6', duration: '22 hours', level: 'intermediate', provider: 'Udemy', url: '#', thumbnail: '' },
   { id: 'course-7', title: 'SQL Performance Tuning', description: 'Optimize queries and database performance.', skillId: 'skill-7', duration: '12 hours', level: 'advanced', provider: 'LinkedIn Learning', url: '#', thumbnail: '' },
@@ -296,11 +357,15 @@ export const certifications: Certification[] = [
 ];
 
 export const employeeCourses: EmployeeCourse[] = [
-  { courseId: 'course-1', employeeId: 'user-1', progress: 75, startedDate: '2025-11-01', status: 'in-progress' },
-  { courseId: 'course-2', employeeId: 'user-1', progress: 100, startedDate: '2025-09-01', completedDate: '2025-10-15', status: 'completed' },
+  { courseId: 'course-1', employeeId: 'user-1', progress: 75, startedDate: '2025-11-01', status: 'in-progress', completedContents: ['content-1-1', 'content-1-2', 'content-1-3'] },
+  { courseId: 'course-2', employeeId: 'user-1', progress: 100, startedDate: '2025-09-01', completedDate: '2025-10-15', status: 'completed', assessmentCompleted: true, assessmentScore: 85, certificationEligible: true, completedContents: ['content-2-1', 'content-2-2', 'content-2-3'] },
   { courseId: 'course-8', employeeId: 'user-1', progress: 20, startedDate: '2025-12-15', status: 'in-progress' },
-  { courseId: 'course-1', employeeId: 'user-2', progress: 100, startedDate: '2025-08-01', completedDate: '2025-09-20', status: 'completed' },
-  { courseId: 'course-2', employeeId: 'user-2', progress: 60, startedDate: '2025-12-01', status: 'in-progress' },
+  // Assigned course by manager
+  { courseId: 'course-3', employeeId: 'user-1', progress: 100, startedDate: '2025-12-01', completedDate: '2026-01-10', status: 'completed', assignedBy: 'user-8', assignedDate: '2025-12-01', assessmentCompleted: false, completedContents: ['content-3-1', 'content-3-2', 'content-3-3'] },
+  { courseId: 'course-1', employeeId: 'user-2', progress: 100, startedDate: '2025-08-01', completedDate: '2025-09-20', status: 'completed', completedContents: ['content-1-1', 'content-1-2', 'content-1-3', 'content-1-4'] },
+  { courseId: 'course-2', employeeId: 'user-2', progress: 60, startedDate: '2025-12-01', status: 'in-progress', completedContents: ['content-2-1', 'content-2-2'] },
+  // Assigned course by manager
+  { courseId: 'course-4', employeeId: 'user-2', progress: 45, startedDate: '2025-12-10', status: 'in-progress', assignedBy: 'user-8', assignedDate: '2025-12-10', completedContents: ['content-4-1'] },
   { courseId: 'course-3', employeeId: 'user-3', progress: 45, startedDate: '2025-11-15', status: 'in-progress' },
   { courseId: 'course-5', employeeId: 'user-3', progress: 10, startedDate: '2026-01-05', status: 'in-progress' },
   { courseId: 'course-9', employeeId: 'user-4', progress: 100, startedDate: '2025-10-01', completedDate: '2025-11-30', status: 'completed' },

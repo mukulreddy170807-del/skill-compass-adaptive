@@ -51,6 +51,17 @@ export interface Assessment {
   status: 'completed' | 'in-progress' | 'pending';
 }
 
+export type ContentType = 'video' | 'article' | 'document' | 'interactive';
+
+export interface CourseContent {
+  id: string;
+  title: string;
+  type: ContentType;
+  url: string;
+  duration: string; // e.g., '10 min', '1 hour'
+  description?: string;
+}
+
 export interface Course {
   id: string;
   title: string;
@@ -61,6 +72,7 @@ export interface Course {
   provider: string;
   url: string;
   thumbnail: string;
+  contents?: CourseContent[]; // Optional learning content
 }
 
 export interface Certification {
@@ -80,6 +92,12 @@ export interface EmployeeCourse {
   startedDate: string;
   completedDate?: string;
   status: 'not-started' | 'in-progress' | 'completed';
+  assignedBy?: string; // managerId who assigned the course
+  assignedDate?: string;
+  assessmentCompleted?: boolean;
+  assessmentScore?: number;
+  certificationEligible?: boolean;
+  completedContents?: string[]; // Array of content IDs that have been completed
 }
 
 export interface EmployeeCertification {

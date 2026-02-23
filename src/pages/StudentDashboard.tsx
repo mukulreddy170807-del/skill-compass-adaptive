@@ -6,6 +6,7 @@ import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
 import { Progress } from '@/components/ui/progress';
 import { GraduationCap, Compass, BookOpen, CheckCircle } from 'lucide-react';
+import { AIGuidance } from '@/components/AIGuidance';
 
 export default function StudentDashboard() {
   const user = useAuthStore((s) => s.user)!;
@@ -25,28 +26,29 @@ export default function StudentDashboard() {
   }
 
   return (
-    <div className="space-y-6 animate-fade-in">
-      <div>
-        <h1 className="text-2xl font-bold">Welcome, {user.name}!</h1>
-        <p className="text-muted-foreground text-sm mt-1">Your personalized career guidance hub</p>
-      </div>
+    <>
+      <div className="space-y-6 animate-fade-in">
+        <div>
+          <h1 className="text-2xl font-bold">Welcome, {user.name}!</h1>
+          <p className="text-muted-foreground text-sm mt-1">Your personalized AI-powered career guidance hub</p>
+        </div>
 
-      {!hasResults ? (
-        <Card className="border-dashed border-2 border-primary/30">
-          <CardContent className="flex flex-col items-center justify-center py-12 text-center space-y-4">
-            <Compass className="w-12 h-12 text-primary/60" />
-            <div>
-              <h2 className="text-lg font-semibold">Discover Your Career Path</h2>
-              <p className="text-sm text-muted-foreground mt-1 max-w-md">Take our career questionnaire to get personalized career recommendations and a learning roadmap.</p>
-            </div>
-            <Button onClick={() => navigate('/student/questionnaire')}>
-              <GraduationCap className="w-4 h-4 mr-2" />Start Questionnaire
-            </Button>
-          </CardContent>
-        </Card>
-      ) : (
-        <>
-          <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
+        {!hasResults ? (
+          <Card className="border-dashed border-2 border-primary/30">
+            <CardContent className="flex flex-col items-center justify-center py-12 text-center space-y-4">
+              <Compass className="w-12 h-12 text-primary/60" />
+              <div>
+                <h2 className="text-lg font-semibold">Discover Your Career Path</h2>
+                <p className="text-sm text-muted-foreground mt-1 max-w-md">Take our AI-powered career questionnaire to get personalized career recommendations and a learning roadmap.</p>
+              </div>
+              <Button onClick={() => navigate('/student/questionnaire')}>
+                <GraduationCap className="w-4 h-4 mr-2" />Start Questionnaire
+              </Button>
+            </CardContent>
+          </Card>
+        ) : (
+          <>
+            <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
             <div className="stat-card">
               <div className="flex items-center gap-3">
                 <div className="w-10 h-10 rounded-lg bg-primary/10 flex items-center justify-center"><GraduationCap className="w-5 h-5 text-primary" /></div>
@@ -88,6 +90,14 @@ export default function StudentDashboard() {
           </Card>
         </>
       )}
-    </div>
+      </div>
+
+      {/* Floating AI Assistant */}
+      <AIGuidance 
+        context="student career dashboard"
+        userProgress={{ hasResults, topCareers }}
+        compact={true}
+      />
+    </>
   );
 }

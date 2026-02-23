@@ -1,73 +1,99 @@
-# Welcome to your Lovable project
+# ASTRA - Adaptive Skills Training and Resource Application
 
-## Project info
+## 🎯 Overview
 
-**URL**: https://lovable.dev/projects/REPLACE_WITH_PROJECT_ID
+ASTRA is an AI-powered adaptive learning platform that provides personalized skill assessments, career guidance, and learning roadmaps. Built with cutting-edge AI technology from Google Gemini, ASTRA creates a truly adaptive learning experience for students and employees.
 
-## How can I edit this code?
+## ✨ Key Features
 
-There are several ways of editing your application.
+### 🤖 AI-Powered Features
+- **Adaptive Assessments**: AI generates unique questions that adapt to your skill level in real-time
+- **Career Recommendations**: Intelligent career path analysis with personalized reasoning
+- **Learning Roadmaps**: AI-generated learning paths with resources, projects, and milestones
+- **AI Learning Assistant**: Interactive chat-based guidance available throughout the platform
 
-**Use Lovable**
+### 👥 User Roles
+- **Students**: Career exploration, questionnaires, and personalized roadmaps
+- **Employees**: Skill assessments and performance tracking
+- **Managers**: Team analytics and skill gap analysis
+- **HR/Admin**: Organization-wide analytics and management
 
-Simply visit the [Lovable Project](https://lovable.dev/projects/REPLACE_WITH_PROJECT_ID) and start prompting.
+## 🚀 Quick Start
 
-Changes made via Lovable will be committed automatically to this repo.
+### Prerequisites
+- Node.js 18+ installed
+- A Google Gemini API key ([Get one here](https://makersuite.google.com/app/apikey))
 
-**Use your preferred IDE**
-
-If you want to work locally using your own IDE, you can clone this repo and push changes. Pushed changes will also be reflected in Lovable.
-
-The only requirement is having Node.js & npm installed - [install with nvm](https://github.com/nvm-sh/nvm#installing-and-updating)
-
-Follow these steps:
+### Installation
 
 ```sh
-# Step 1: Clone the repository using the project's Git URL.
+# Clone the repository
 git clone <YOUR_GIT_URL>
+cd skill-compass-adaptive
 
-# Step 2: Navigate to the project directory.
-cd <YOUR_PROJECT_NAME>
+# Install dependencies
+npm install
 
-# Step 3: Install the necessary dependencies.
-npm i
+# Configure your Gemini API key
+# 1. Copy .env.example to .env
+# 2. Add your API key to .env file
+# 3. See AI_SETUP_GUIDE.md for detailed instructions
 
-# Step 4: Start the development server with auto-reloading and an instant preview.
+# Start the development server
 npm run dev
 ```
 
-**Edit a file directly in GitHub**
+The application will be available at `http://localhost:8080`
 
-- Navigate to the desired file(s).
-- Click the "Edit" button (pencil icon) at the top right of the file view.
-- Make your changes and commit the changes.
+## 📚 Documentation
 
-**Use GitHub Codespaces**
+- **[AI Setup Guide](AI_SETUP_GUIDE.md)** - Comprehensive guide for setting up AI features
+- **[User Guide](docs/user-guide.md)** - How to use the platform (coming soon)
+- **[API Documentation](docs/api.md)** - Technical API reference (coming soon)
 
-- Navigate to the main page of your repository.
-- Click on the "Code" button (green button) near the top right.
-- Select the "Codespaces" tab.
-- Click on "New codespace" to launch a new Codespace environment.
-- Edit files directly within the Codespace and commit and push your changes once you're done.
+## 🛠️ Technology Stack
 
-## What technologies are used for this project?
+- **Frontend Framework**: React 18 with TypeScript
+- **Build Tool**: Vite
+- **UI Components**: shadcn/ui + Radix UI
+- **Styling**: Tailwind CSS
+- **State Management**: Zustand
+- **Routing**: React Router
+- **AI**: Google Gemini API
+- **Testing**: Vitest + Testing Library
 
-This project is built with:
+## 🎨 Project Structure
 
-- Vite
-- TypeScript
-- React
-- shadcn-ui
-- Tailwind CSS
+```
+skill-compass-adaptive/
+├── src/
+│   ├── components/       # Reusable UI components
+│   │   ├── ui/          # shadcn/ui components
+│   │   └── AIGuidance.tsx
+│   ├── features/        # Feature-specific logic
+│   │   ├── assessment/  # Adaptive assessment engine
+│   │   └── student/     # Career guidance engine
+│   ├── pages/           # Page components
+│   ├── services/        # External services (Gemini API)
+│   ├── store/           # State management
+│   └── types/           # TypeScript definitions
+├── public/              # Static assets
+└── .env                 # Environment configuration
+```
 
-## How can I deploy this project?
+## 🧪 Testing
 
-Simply open [Lovable](https://lovable.dev/projects/REPLACE_WITH_PROJECT_ID) and click on Share -> Publish.
+```sh
+# Run tests
+npm test
 
-## Can I connect a custom domain to my Lovable project?
+# Run tests in watch mode
+npm run test:watch
+```
 
-Yes, you can!
+## 🔒 Security
 
-To connect a domain, navigate to Project > Settings > Domains and click Connect Domain.
-
-Read more here: [Setting up a custom domain](https://docs.lovable.dev/features/custom-domain#custom-domain)
+- Never commit your `.env` file
+- Keep your Gemini API key secure
+- Use environment variables for all sensitive data
+- Review the [Security Guide](docs/security.md) for best practices (coming soon)

@@ -16,6 +16,7 @@ import LearningPage from "@/pages/LearningPage";
 import CertificationsPage from "@/pages/CertificationsPage";
 import ManagerSkillsPage from "@/pages/ManagerSkillsPage";
 import ManagerAnalyticsPage from "@/pages/ManagerAnalyticsPage";
+import ManagerCoursesPage from "@/pages/ManagerCoursesPage";
 import HREmployeesPage from "@/pages/HREmployeesPage";
 import HRAnalyticsPage from "@/pages/HRAnalyticsPage";
 import HRCertificationsPage from "@/pages/HRCertificationsPage";
@@ -66,6 +67,7 @@ const App = () => (
             <Route path="/manager" element={<ManagerDashboard />} />
             <Route path="/manager/skills" element={<ManagerSkillsPage />} />
             <Route path="/manager/analytics" element={<ManagerAnalyticsPage />} />
+            <Route path="/manager/courses" element={<ManagerCoursesPage />} />
           </Route>
 
           {/* HR routes */}

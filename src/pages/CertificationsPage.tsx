@@ -1,16 +1,36 @@
 import { useAuthStore } from '@/store/authStore';
+import { useCertificationStore } from '@/store/certificationStore';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
 import { Award, AlertTriangle, CheckCircle2, Clock } from 'lucide-react';
-import { employeeCertifications, certifications, skills } from '@/data/mockData';
+import { certifications, skills, courses } from '@/data/mockData';
 
 export default function CertificationsPage() {
   const user = useAuthStore((s) => s.user)!;
-  const myCerts = employeeCertifications
+  const { certifications: allCertifications } = useCertificationStore();
+  const myCerts = allCertifications
     .filter((ec) => ec.employeeId === user.id)
     .map((ec) => {
-      const cert = certifications.find((c) => c.id === ec.certificationId)!;
-      const skill = skills.find((s) => s.id === cert.skillId);
+      let cert = certifications.find((c) => c.id === ec.certificationId);
+      
+      // Handle course completion certifications
+      if (!cert && ec.certificationId.startsWith('cert-course-')) {
+        const courseId = ec.certificationId.replace('cert-course-', '');
+        const course = courses.find((c) => c.id === courseId);
+        if (course) {
+          cert = {
+            id: ec.certificationId,
+            name: `${course.title} - Course Completion`,
+            provider: 'ASTRA Platform',
+            skillId: course.skillId,
+            earnedDate: ec.earnedDate,
+            expiryDate: ec.expiryDate,
+            status: 'active' as const,
+          };
+        }
+      }
+
+      const skill = skills.find((s) => s.id === cert?.skillId);
       const now = new Date();
       const expiry = new Date(ec.expiryDate);
       const daysUntilExpiry = Math.ceil((expiry.getTime() - now.getTime()) / (1000 * 60 * 60 * 24));
@@ -18,7 +38,8 @@ export default function CertificationsPage() {
       if (daysUntilExpiry < 0) status = 'expired';
       else if (daysUntilExpiry < 90) status = 'expiring';
       return { ...ec, cert, skill, status, daysUntilExpiry };
-    });
+    })
+    .filter((item) => item.cert); // Only show certifications with valid cert data
 
   const statusConfig = {
     active: { icon: CheckCircle2, color: 'text-success', bg: 'bg-success/10', label: 'Active' },

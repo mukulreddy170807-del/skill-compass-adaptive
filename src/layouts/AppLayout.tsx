@@ -30,6 +30,7 @@ const navItems: NavItem[] = [
   { label: 'Dashboard', path: '/manager', icon: LayoutDashboard, roles: ['manager'] },
   { label: 'Team Skills', path: '/manager/skills', icon: Target, roles: ['manager'] },
   { label: 'Team Analytics', path: '/manager/analytics', icon: BarChart3, roles: ['manager'] },
+  { label: 'Courses', path: '/manager/courses', icon: BookOpen, roles: ['manager'] },
   // HR
   { label: 'Dashboard', path: '/hr', icon: LayoutDashboard, roles: ['hr'] },
   { label: 'Employees', path: '/hr/employees', icon: Users, roles: ['hr'] },
